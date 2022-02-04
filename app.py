@@ -1,16 +1,20 @@
 # app.py
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 import bot_functions as bf
 import logging
 
 import json
-app = Flask(__name__)
+app = Flask(__name__, template_folder="views")
 
 
 @app.route('/')  # create a route for / - just to test server is up.
 def index():
-    return '<h1>Flask Receiver App is Up!</h1>', 200
+    items = []
+    return render_template(
+        "main.html",
+        items=items,
+    )
 
 
 @app.route('/webhook', methods=['POST'])
@@ -22,11 +26,11 @@ def webhook():
 
             for item in items:
                 bf.save_order(
-                    candle_period=item['analysis']['config']['candle_period'] if item['analysis']['config'] else '',
+                    candle_period=item['analysis']['config']['candle_period'] or '',
                     indicator=item['indicator'],
                     market=item['market'],
                     exchange=item['exchange'],
-                    price=item['price_value']['close'] if item['price_value'] else 0,
+                    price=item['price_value']['close'] or 0,
                     type=item['status'],
                     last_status=item['last_status'],
                     cause="%s %s" % (item['indicator'], item['status'])
