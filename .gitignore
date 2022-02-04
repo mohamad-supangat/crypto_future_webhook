@@ -1,2 +1,4 @@
 *.json
 *.json.lock
+*.pyc
+**/*.pyc
