@@ -10,10 +10,10 @@ app = Flask(__name__, template_folder="views")
 
 @app.route('/')  # create a route for / - just to test server is up.
 def index():
-    items = []
+    items = bf.tradesDb.getAll()
     return render_template(
         "main.html",
-        items=items,
+        items=json.dumps(items),
     )
 
 
@@ -40,4 +40,4 @@ def webhook():
         return 'POST Method not supported', 405
 
 
-app.run(host='0.0.0.0', port=3000)
+app.run(host='0.0.0.0', port=3000, debug=True)

@@ -9,7 +9,56 @@
   </head>
 
   <body>
-
+    <div class="container" id="trades">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Market</th>
+            <th>Indicator</th>
+            <th>Candle Periode</th>
+            <th>Type</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Cause</th>
+            <th>Last Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="trade in trades" :key="trade.id">
+            <td>${trade.time}</td>
+            <td>${trade.market}</td>
+            <td>${trade.indicator}</td>
+            <td>${trade.candle_period}</td>
+            <td>${trade.type}</td>
+            <td>${trade.qty}</td>
+            <td>${trade.price}</td>
+            <td>${trade.cause}</td>
+            <td>${trade.last_status}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </body>
 
 </html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+
+{% autoescape false %}
+
+new Vue({
+  el: '#trades',
+  delimiters: ['${', '}'],
+  data() {
+      return {
+          trades: {{ items }}
+        }
+    }
+
+})
+
+{% endautoescape %}
+</script>
